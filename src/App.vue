@@ -23,7 +23,7 @@
       <v-list-item>
     <v-switch
         @click="toggleDisplay"
-        :label="'Show empty stations'"
+        :label="'Hide empty stations'"
         ligth
         />
       </v-list-item>
@@ -64,5 +64,9 @@ export default {
   data: () => ({
     drawer: false
   }),
+
+  created() {
+    this.toggleDisplay()
+  }
 };
 </script>
