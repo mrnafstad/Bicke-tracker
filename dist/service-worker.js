@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.033d9382085eb0308fe093a0566c891f.js"
+  "Bike-tracker/precache-manifest.32f497a58e0878c1efa6a7491d56bbee.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "map-app"});
