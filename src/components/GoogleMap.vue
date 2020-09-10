@@ -2,13 +2,20 @@
   <v-container>
      <v-overlay :value="showAppInfo">
         <v-card raised light>
-            This is a tracking app for Oslo city bikes
-            <br />
-        <v-btn icon @click="toggleAppInfo">
-          <v-icon>mdi-check</v-icon>
-        </v-btn>
-      </v-card>
-    </v-overlay>
+          <v-list>
+          <v-list-item >
+            This is a simple tracking app for Oslo city bikes
+            </v-list-item>             
+            <v-list-item>Stationdata is updated every minute</v-list-item>   
+            <v-list-item>Toggle filters in the menu to the right</v-list-item>
+            </v-list>
+            <v-card-actions>     
+            <v-btn icon @click="toggleAppInfo">
+              <v-icon>mdi-check</v-icon>
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+      </v-overlay>
 
     <v-overlay :value="showStationInfo">
       <v-card raised light>
@@ -28,9 +35,8 @@
     </v-overlay>
     <v-overlay :value="user.show">
       <v-card raised light>
-        <v-list-item>
-          
-        <v-list-item-title>{{ currentInfo.name }}</v-list-item-title>
+        <v-list-item>   
+        <v-list-item-title>{{ user.info }}</v-list-item-title>
         <v-spacer></v-spacer>
         <v-btn icon @click="user.show = !user.show">
           <v-icon>mdi-check</v-icon>
@@ -43,15 +49,15 @@
       :zoom="12"
       style="width:100%;  height: 90vh;"
     >
-      <gmap-marker
-        :key="index"
-        v-for="(m, index) in stations"
-        :position="m.pos"
-        @click="toggleStation(m)"
-        :clickable="true"
-      >
-      </gmap-marker>
-    <gmap-marker 
+    <gmap-marker
+      :key="index"
+      v-for="(m, index) in stationsFiltered"
+      :position="m.pos"
+      @click="toggleStation(m)"
+      :clickable="true"
+    >
+    </gmap-marker>
+    <gmap-marker
       :position="center" 
       :clickable="true"
       @click="user.show = !user.show"
@@ -113,7 +119,7 @@ export default {
     }
   },
   computed: {
-      ...mapGetters(['stations', 'showAppInfo', 'showStationInfo'])
+      ...mapGetters(['stationsFiltered', 'showAppInfo', 'showStationInfo', 'showUnavailable', 'showFull'])
   },
     async created() {
       await this.getStations()

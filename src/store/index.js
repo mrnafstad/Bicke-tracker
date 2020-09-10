@@ -8,6 +8,8 @@ export default new Vuex.Store({
     stations: [],
     showAppInfo: true,
     showStationInfo: false,
+    onlyAvailable: false,
+    showFull: false
   },
   mutations: {
     setStations: (state, stations) => {
@@ -24,8 +26,10 @@ export default new Vuex.Store({
       });
     },
     toggleAppInfo: (state) => state.showAppInfo = !state.showAppInfo,
-    toggleStationInfo: (state) => state.showStationInfo = !state.showStationInfo
-  },
+    toggleStationInfo: (state) => state.showStationInfo = !state.showStationInfo,
+    toggleDisplay: (state) => state.onlyAvailable = !state.onlyAvailable,
+    toggleFull: (state) => state.showFull = !state.showFull
+  },    
   actions: {
     async getStations({ commit }) {
       await fetch('https://gbfs.urbansharing.com/oslobysykkel.no/station_information.json').then(
@@ -54,13 +58,38 @@ export default new Vuex.Store({
     },
     toggleStationInfo({ commit }) {
       commit('toggleStationInfo')
+    },
+    toggleDisplay({ commit }) {
+      commit('toggleDisplay')
+    },
+    toggleFull({ commit }) {
+      commit('toggleFull')
     }
   },
   modules: {
   },
   getters: {
-    stations: (state) => state.stations,
+    stationsFiltered: (state) => {
+      //fiks filter
+      var returnStat
+      if (!state.onlyAvailable && !state.showFull) {
+        returnStat = state.stations.filter(stat => { return stat.available > 0 })
+      } else if (state.onlyAvailable && !state.showfull) {
+        returnStat = state.stations
+        //returnStat = state.stations.filter(stat => { return stat.available < stat.capacity })
+      } else if (!state.onlyAvailable && state.showFull){
+        returnStat = state.stations.filter(stat => { return stat.available < stat.capacity && stat.available > 0 })
+      } else if (state.onlyAvailable && state.showFull) {
+        returnStat = state.stations.filter(stat => { return stat.available < stat.capacity })
+      } else {
+        returnStat = state.stations
+      }
+      returnStat.forEach(stat => console.log(stat.name + ": " + (stat.available - stat.capacity)))
+      return returnStat
+    },
     showAppInfo: (state) => state.showAppInfo,
-    showStationInfo: (state) => state.showStationInfo
+    showStationInfo: (state) => state.showStationInfo,
+    showUnavailable: (state) => state.onlyAvailable,
+    showFull: (state) => state.showFull
   }
 })
