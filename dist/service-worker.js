@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "Bike-tracker/precache-manifest.32f497a58e0878c1efa6a7491d56bbee.js"
+  "precache-manifest.847fd4860e08b706597756d19de8a516.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "map-app"});
+workbox.core.setCacheNameDetails({prefix: "city-bike-tracker"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
