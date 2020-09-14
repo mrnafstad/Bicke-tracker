@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.847fd4860e08b706597756d19de8a516.js"
+  "precache-manifest.bd943d3c279af27432135915db87d186.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "city-bike-tracker"});
